@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class EchoServerWithOperations {
+    private static String currentOperation = "cos";
+
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -16,54 +18,63 @@ public class EchoServerWithOperations {
             System.err.println("Could not listen on port: 35000.");
             System.exit(1);
         }
-        Socket clientSocket = null;
-        try {
-            clientSocket = serverSocket.accept();
-        } catch (IOException e) {
-            System.err.println("Accept failed.");
-            System.exit(1);
-        }
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        clientSocket.getInputStream()));
-        String inputLine, outputLine;
-        while ((inputLine = in.readLine()) != null) {
-            System.out.println("Mensaje: " + inputLine);
 
+        System.out.println("Server is running and listening on port 35000...");
 
-            outputLine = "Respuesta " + evaluarFuncion(inputLine);
-            out.println(outputLine);
-            if (outputLine.equals("Respuestas: Bye."))
-                break;
-        }
-        out.close();
-        in.close();
-        clientSocket.close();
-        serverSocket.close();
-    }
-    public static double evaluarFuncion(String funcion) {
-        if (funcion.startsWith("fun:")) {
-            String operacion = funcion.substring(4, 7); // Obtener la operación (sin, cos, tan)
-            if (funcion.contains("/") || funcion.contains("*") || funcion.contains("pi")){
-                return 0;
+        while (true) {
+            Socket clientSocket = null;
+            try {
+                clientSocket = serverSocket.accept();
+            } catch (IOException e) {
+                System.err.println("Accept failed.");
+                System.exit(1);
             }
-            double numero = Double.parseDouble(funcion.substring(7)); // Obtener el número
-            switch (operacion) {
-                case "sin":
-                    return Math.sin(numero);
-                case "cos":
-                    return Math.cos(numero);
-                case "tan":
-                    return Math.tan(numero);
-                default:
-                    throw new IllegalArgumentException("Operación matemática no reconocida: " + operacion);
+
+            System.out.println("Accepted connection from client: " + clientSocket);
+
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println("Received message: " + inputLine);
+
+                String response;
+                if (inputLine.startsWith("fun:")) {
+                    currentOperation = inputLine.substring(4);
+                    response = "Operation changed to: " + currentOperation;
+                } else {
+                    try {
+                        double number = Double.parseDouble(inputLine);
+                        double result = evaluateOperation(number);
+                        response = "Result: " + result;
+                    } catch (NumberFormatException e) {
+                        response = "Invalid input. Please send a valid number or 'fun:operation'.";
+                    }
+                }
+
+                out.println(response);
+
+                if (inputLine.equals("Bye."))
+                    break;
             }
-        } else {
-            throw new IllegalArgumentException("La cadena no comienza con 'fun'.");
+
+            out.close();
+            in.close();
+            clientSocket.close();
         }
     }
 
-
-
+    private static double evaluateOperation(double number) {
+        switch (currentOperation) {
+            case "sin":
+                return Math.sin(number);
+            case "cos":
+                return Math.cos(number);
+            case "tan":
+                return Math.tan(number);
+            default:
+                throw new IllegalArgumentException("Unsupported operation: " + currentOperation);
+        }
+    }
 }

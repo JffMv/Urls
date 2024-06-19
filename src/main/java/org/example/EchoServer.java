@@ -23,6 +23,7 @@ public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
                 clientSocket.getInputStream()));
+
         String inputLine, outputLine;
         while ((inputLine = in.readLine()) != null) {
             System.out.println("Mensaje: " + inputLine);
