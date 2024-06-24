@@ -171,13 +171,6 @@ java -cp "target/classes" org.example.EchoClientImplementationRemote
 ```
 
 
-
-Run the project seen console with where "Route/you/file.you" put the real location of the file:
-```
-java -cp target/Mean-SD-Lambda-DataGenerics-1.0-SNAPSHOT.jar edu.escuelaing.arsw.ASE.app.App "Route/you/file.you"
-
-```
-
 ## Built With
 
 * [Java](https://www.java.com/es/) - The language used
