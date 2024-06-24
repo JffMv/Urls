@@ -14,4 +14,55 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <reportOutputDirectory>${project.basedir}/documentation/javadocs</reportOutputDirectory>
+                    <destDir>${project.basedir}/documentation/javadocs</destDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-javadocs</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                            <goal>aggregate</goal>
+                            <goal>aggregate-jar</goal>
+                        </goals>
+                        <configuration>
+                            <reportOutputDirectory>${project.basedir}/documentation/javadocs</reportOutputDirectory>
+                            <destDir>${project.basedir}/documentation/javadocs</destDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-test-javadocs</id>
+                        <goals>
+                            <goal>test-javadoc</goal>
+                            <goal>test-aggregate</goal>
+                            <goal>test-aggregate-jar</goal>
+                        </goals>
+                        <configuration>
+                            <destDir>${project.basedir}/documentation/testJavadocs</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <name>URLS</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+    </dependencies>
+
 </project>

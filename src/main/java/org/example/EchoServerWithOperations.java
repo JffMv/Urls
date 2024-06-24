@@ -7,9 +7,24 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * A simple echo server that can perform mathematical operations based on client requests.
+ * The server listens on port 35000 and can handle two types of requests:
+ * 1. Evaluate trigonometric functions (sin, cos, tan) on a given number.
+ * 2. Change the current operation to be performed (sin, cos, tan).
+ *
+ * The client sends either a number or a command to change the operation. The server responds
+ * with the result of the operation or an appropriate error message if the input is invalid.
+ */
 public class EchoServerWithOperations {
     private static String currentOperation = "cos";
 
+    /**
+     * Main method to start the echo server.
+     *
+     * @param args Command-line arguments (not used).
+     * @throws IOException If an I/O error occurs when creating the server socket.
+     */
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -65,6 +80,13 @@ public class EchoServerWithOperations {
         }
     }
 
+    /**
+     * Evaluates the current mathematical operation on the given number.
+     *
+     * @param number The number on which the operation should be performed.
+     * @return The result of the operation.
+     * @throws IllegalArgumentException If the current operation is not supported.
+     */
     private static double evaluateOperation(double number) {
         switch (currentOperation) {
             case "sin":
