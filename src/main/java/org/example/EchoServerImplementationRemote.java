@@ -9,7 +9,6 @@ public class EchoServerImplementationRemote implements EchoServerRemoteInterface
 
     public EchoServerImplementationRemote(String ipRMIregistry,
             int puertoRMIregistry, String nombreDePublicacion){
-
         try {
             EchoServerRemoteInterface echoServerRemote =
                     (EchoServerRemoteInterface) UnicastRemoteObject.exportObject(this,0);
@@ -24,7 +23,8 @@ public class EchoServerImplementationRemote implements EchoServerRemoteInterface
         public String echo(String cadena) throws RemoteException {
                 return "desde el servidor: " + cadena;
                 }
-        public static void main(String[] args){
-            EchoServerImplementationRemote ec = new EchoServerImplementationRemote("127.0.0.1", 23000, "echoServer");
-                }
+        public static void main(String[] args) {
+            EchoServerImplementationRemote ec = new EchoServerImplementationRemote("127.0.0.1",
+                    23000, "echoServer");
+        }
 }

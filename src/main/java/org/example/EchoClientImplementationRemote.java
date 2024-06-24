@@ -5,8 +5,8 @@ import java.rmi.registry.Registry;
  *
  * @author dnielben
  */
-        public class EchoClientImplementationRemote {
-public void ejecutaServicio(String ipRmiregistry, int puertoRmiRegistry,
+public class EchoClientImplementationRemote {
+    public void ejecutaServicio(String ipRmiregistry, int puertoRmiRegistry,
                                String nombreServicio) {
         try {
             Registry registry = LocateRegistry.getRegistry(ipRmiregistry, puertoRmiRegistry);
